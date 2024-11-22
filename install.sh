@@ -33,6 +33,6 @@ cp -pr ./etc/default/grub /mnt/etc/default/grub
 arch-chroot /mnt /bin/zsh -c "grub-mkconfig -o /boot/grub/grub.cfg"
 arch-chroot /mnt /bin/zsh -c "echo "root:inlinelain" | chpasswd"
 chmod -R 777 /mnt/home/inlinelain
-chmod g-w,o-w -R /mnt/home/inlinelain/.oh-my-zsh/custom
+chmod g-w,o-w -R /mnt/home/inlinelain/.oh-my-zsh
 umount -R /mnt
 reboot
