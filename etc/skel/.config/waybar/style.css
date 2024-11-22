@@ -1,0 +1,21 @@
+#waybar {
+    font-family: Iosevka;
+    font-size: 15px;
+    font-weight: 400;
+    min-height: 30px;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+#clock {
+    color: rgba(255, 255, 255, 255);
+}
+
+#language {
+    margin-right: 15px;
+    color: rgba(255, 255, 255, 255);
+}
+
+#pulseaudio {
+    margin-right: 15px;
+    color: rgba(255, 255, 255, 255);
+}
