@@ -29,7 +29,7 @@ output * {
 
 mode "default" {
     bindsym mod4+return exec kitty
-    bindsym --to-code mod4+b exec firefox
+    bindsym --to-code mod4+b exec firefox --profile $HOME/.mozilla/firefox/profile.inlinelain -no-remote
     bindsym print exec grim - | wl-copy
 
     bindsym --to-code mod4+r mode "edit"; exec swaymsg "client.focused #991B1B #991B1B #991B1B #991B1B"
