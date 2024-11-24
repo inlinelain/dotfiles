@@ -8,13 +8,13 @@ fi
 
 if ! pacman -Q dialog &> /dev/null; then
     echo -e "$TEXT_COLOR_RED The dialog package is not installed $RESET_COLOR"
-    echo -e " - Try enter this: $TEXT_COLOR_RED pacman -S dialog $RESET_COLOR"
+    echo -e " - Try enter this: $TEXT_COLOR_RED pacman -Syy dialog $RESET_COLOR"
     exit 0
 fi
 
 if ! pacman -Q git &> /dev/null; then
     echo -e "$TEXT_COLOR_RED The git package is not installed $RESET_COLOR"
-    echo -e " - Try enter this: $TEXT_COLOR_RED pacman -S git $RESET_COLOR"
+    echo -e " - Try enter this: $TEXT_COLOR_RED pacman -Syy git $RESET_COLOR"
     exit 0
 fi
 
