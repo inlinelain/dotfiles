@@ -104,40 +104,40 @@ if [[ $? -ne 0 ]]; then
     exit 0
 fi
 
-wipefs --all /dev/${selected_disk_name} &> /dev/null
-parted /dev/${selected_disk_name} mklabel gpt &> /dev/null
-parted /dev/${selected_disk_name} mkpart primary fat32 1MiB 1024MiB &> /dev/null
-parted /dev/${selected_disk_name} set 1 esp on &> /dev/null
-parted /dev/${selected_disk_name} mkpart primary ext4 1024MiB 100% &> /dev/null
-yes | mkfs.vfat /dev/${selected_disk_name}${selected_disk_parted_separator}1 &> /dev/null
-yes | mkfs.ext4 /dev/${selected_disk_name}${selected_disk_parted_separator}2 &> /dev/null
-mount /dev/${selected_disk_name}${selected_disk_parted_separator}2 /mnt &> /dev/null
+wipefs --all /dev/${selected_disk_name}
+parted /dev/${selected_disk_name} mklabel gpt
+parted /dev/${selected_disk_name} mkpart primary fat32 1MiB 1024MiB
+parted /dev/${selected_disk_name} set 1 esp on
+parted /dev/${selected_disk_name} mkpart primary ext4 1024MiB 100%
+yes | mkfs.vfat /dev/${selected_disk_name}${selected_disk_parted_separator}1
+yes | mkfs.ext4 /dev/${selected_disk_name}${selected_disk_parted_separator}2
+mount /dev/${selected_disk_name}${selected_disk_parted_separator}2 /mnt
 mkdir -p /mnt/boot/efi
-mount /dev/${selected_disk_name}${selected_disk_parted_separator}1 /mnt/boot/efi &> /dev/null
-pacstrap /mnt base base-devel linux linux-firmware linux-headers curl grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd &> /dev/null
-genfstab /mnt >> /mnt/etc/fstab &> /dev/null
-echo "$user_username" > /mnt/etc/hostname &> /dev/null
-cp -pr ./etc/pacman.conf /mnt/etc/pacman.conf &> /dev/null
-cp -pr ./etc/locale.gen /mnt/etc/locale.gen &> /dev/null
-git clone https://github.com/ohmyzsh/ohmyzsh.git /mnt/etc/skel/.oh-my-zsh &> /dev/null
-git clone https://github.com/alexanderjeurissen/ranger_devicons.git /mnt/etc/skel/.config/ranger/plugins/ranger_devicons &> /dev/null
-git clone https://github.com/zsh-users/zsh-autosuggestions.git /mnt/etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions &> /dev/null
-cp -pr ./etc/skel /mnt/etc/skel &> /dev/null
-arch-chroot /mnt /bin/zsh -c "useradd -m -s /bin/zsh ${user_username}" &> /dev/null
-rm -fr /mnt/home/${user_username} &> /dev/null
-cp -pr ./etc/skel /mnt/home/${user_username} &> /dev/null
-arch-chroot /mnt /bin/zsh -c "echo '${user_username}:${user_password}' | chpasswd" &> /dev/null
-arch-chroot /mnt /bin/zsh -c "echo '${user_username} ALL=(ALL:ALL) ALL' | tee -a /etc/sudoers" &> /dev/null
-arch-chroot /mnt /bin/zsh -c "systemctl enable NetworkManager" &> /dev/null
-arch-chroot /mnt /bin/zsh -c "timedatectl set-timezone Europe/Moscow" &> /dev/null
-arch-chroot /mnt /bin/zsh -c "timedatectl set-ntp true" &> /dev/null
-arch-chroot /mnt /bin/zsh -c "grub-install /dev/${selected_disk_name}" &> /dev/null
-cp -pr ./boot/grub/themes/grub /mnt/boot/grub/themes/grub &> /dev/null
-cp -pr ./etc/default/grub /mnt/etc/default/grub &> /dev/null
-arch-chroot /mnt /bin/zsh -c "grub-mkconfig -o /boot/grub/grub.cfg" &> /dev/null
-arch-chroot /mnt /bin/zsh -c "echo 'root:${root_password}' | chpasswd" &> /dev/null
-chmod -R 700 /mnt/home/${user_username} &> /dev/null
-chmod g-w,o-w -R /mnt/home/${user_username}/.oh-my-zsh &> /dev/null
-umount -R /mnt &> /dev/null
+mount /dev/${selected_disk_name}${selected_disk_parted_separator}1 /mnt/boot/efi
+pacstrap /mnt base base-devel linux linux-firmware linux-headers curl grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd
+genfstab /mnt >> /mnt/etc/fstab
+echo "$user_username" > /mnt/etc/hostname
+cp -pr ./etc/pacman.conf /mnt/etc/pacman.conf
+cp -pr ./etc/locale.gen /mnt/etc/locale.gen
+git clone https://github.com/ohmyzsh/ohmyzsh.git /mnt/etc/skel/.oh-my-zsh
+git clone https://github.com/alexanderjeurissen/ranger_devicons.git /mnt/etc/skel/.config/ranger/plugins/ranger_devicons
+git clone https://github.com/zsh-users/zsh-autosuggestions.git /mnt/etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions
+cp -pr ./etc/skel /mnt/etc/skel
+arch-chroot /mnt /bin/zsh -c "useradd -m -s /bin/zsh ${user_username}"
+rm -fr /mnt/home/${user_username}
+cp -pr ./etc/skel /mnt/home/${user_username}
+arch-chroot /mnt /bin/zsh -c "echo '${user_username}:${user_password}' | chpasswd"
+arch-chroot /mnt /bin/zsh -c "echo '${user_username} ALL=(ALL:ALL) ALL' | tee -a /etc/sudoers"
+arch-chroot /mnt /bin/zsh -c "systemctl enable NetworkManager"
+arch-chroot /mnt /bin/zsh -c "timedatectl set-timezone Europe/Moscow"
+arch-chroot /mnt /bin/zsh -c "timedatectl set-ntp true"
+arch-chroot /mnt /bin/zsh -c "grub-install /dev/${selected_disk_name}"
+cp -pr ./boot/grub/themes/grub /mnt/boot/grub/themes/grub
+cp -pr ./etc/default/grub /mnt/etc/default/grub
+arch-chroot /mnt /bin/zsh -c "grub-mkconfig -o /boot/grub/grub.cfg"
+arch-chroot /mnt /bin/zsh -c "echo 'root:${root_password}' | chpasswd"
+chmod -R 700 /mnt/home/${user_username}
+chmod g-w,o-w -R /mnt/home/${user_username}/.oh-my-zsh
+umount -R /mnt
 
 dialog --title "Installing Arch Linux" --msgbox "The installation is complete, now you can restart your computer" 7 40
