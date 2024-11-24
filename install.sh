@@ -117,19 +117,20 @@ run_command_with_dialog() {
     local command="$3"
     local progress=0
 
-    eval "$command" &
+    eval "$command > /dev/null 2>&1 &"
     pid=$!
 
     while kill -0 $pid 2>/dev/null; do
-        for i in {0..100..10}; do
-            update_dialog "$title" "$message" $((progress + i))
-            sleep 1
-        done
         progress=$((progress + 10))
+        update_dialog "$title" "$message" "$progress"
+        sleep 1
     done
 
-    wait $pid
-    update_dialog "$title" "$message completed!" 100
+    if wait $pid; then
+        update_dialog "$title" "$message completed!" 100
+    else
+        update_dialog "$title" "Error occurred!" 100
+    fi
     sleep 1
 }
 
