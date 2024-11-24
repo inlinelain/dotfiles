@@ -38,7 +38,7 @@ selected_disk_size="${disks_size[$(<temp.txt)]}"
 selected_disk_parted_separator=""
 
 if [[ $selected_disk_name == *"nvme"* ]]; then
-    elected_disk_parted_separator="p"
+    selected_disk_parted_separator="p"
 fi
 
 user_username=""
