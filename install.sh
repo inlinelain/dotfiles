@@ -104,63 +104,40 @@ if [[ $? -ne 0 ]]; then
     exit 0
 fi
 
-update_dialog() {
-    local title="$1"
-    local message="$2"
-    local progress="$3"
-    dialog --title "$title" --gauge "$message" 10 70 "$progress"
-}
-
-run_command_with_dialog() {
-    local title="$1"
-    local message="$2"
-    local command="$3"
-    local progress=0
-
-    eval "$command > /dev/null 2>&1 &"
-    pid=$!
-
-    while kill -0 $pid 2>/dev/null; do
-        progress=$((progress + 10))
-        update_dialog "$title" "$message" "$progress"
-        sleep 1
-    done
-
-    if wait $pid; then
-        update_dialog "$title" "$message completed!" 100
-    else
-        update_dialog "$title" "Error occurred!" 100
-    fi
-    sleep 1
-}
-
-run_command_with_dialog "Installing Arch Linux" "Wiping disk metadata..." "wipefs --all /dev/${selected_disk_name}"
-run_command_with_dialog "Installing Arch Linux" "Creating partition table..." "parted /dev/${selected_disk_name} mklabel gpt"
-run_command_with_dialog "Installing Arch Linux" "Creating EFI partition..." "parted /dev/${selected_disk_name} mkpart primary fat32 1MiB 1024MiB && parted /dev/${selected_disk_name} set 1 esp on"
-run_command_with_dialog "Installing Arch Linux" "Creating primary ext4 partition..." "parted /dev/${selected_disk_name} mkpart primary ext4 1024MiB 100%"
-run_command_with_dialog "Installing Arch Linux" "Formatting EFI partition..." "yes | mkfs.vfat /dev/${selected_disk_name}${selected_disk_parted_separator}1"
-run_command_with_dialog "Installing Arch Linux" "Formatting ext4 partition..." "yes | mkfs.ext4 /dev/${selected_disk_name}${selected_disk_parted_separator}2"
-run_command_with_dialog "Installing Arch Linux" "Mounting ext4 partition..." "mount /dev/${selected_disk_name}${selected_disk_parted_separator}2 /mnt && mkdir -p /mnt/boot/efi"
-run_command_with_dialog "Installing Arch Linux" "Mounting EFI partition..." "mount /dev/${selected_disk_name}${selected_disk_parted_separator}1 /mnt/boot/efi"
-run_command_with_dialog "Installing Arch Linux" "Installing base system and packages..." "pacstrap /mnt base base-devel linux linux-firmware linux-headers curl grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd"
-run_command_with_dialog "Installing Arch Linux" "Generating fstab..." "genfstab /mnt >> /mnt/etc/fstab"
-run_command_with_dialog "Installing Arch Linux" "Copying configuration files..." "echo \"$user_username\" > /mnt/etc/hostname && cp -pr ./etc/pacman.conf /mnt/etc/pacman.conf && cp -pr ./etc/locale.gen /mnt/etc/locale.gen"
-run_command_with_dialog "Installing Arch Linux" "Cloning Oh My Zsh..." "git clone https://github.com/ohmyzsh/ohmyzsh.git /mnt/etc/skel/.oh-my-zsh"
-run_command_with_dialog "Installing Arch Linux" "Cloning Ranger Devicons..." "git clone https://github.com/alexanderjeurissen/ranger_devicons.git /mnt/etc/skel/.config/ranger/plugins/ranger_devicons"
-run_command_with_dialog "Installing Arch Linux" "Cloning Zsh Autosuggestions..." "git clone https://github.com/zsh-users/zsh-autosuggestions.git /mnt/etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions"
-run_command_with_dialog "Installing Arch Linux" "Copying skel to new user's home..." "cp -pr ./etc/skel /mnt/etc/skel &> /dev/null"
-run_command_with_dialog "Installing Arch Linux" "Creating user..." "arch-chroot /mnt /bin/zsh -c \"useradd -m -s /bin/zsh ${user_username}\" && rm -fr /mnt/home/${user_username} && cp -pr ./etc/skel /mnt/home/${user_username}"
-run_command_with_dialog "Installing Arch Linux" "Setting user password..." "arch-chroot /mnt /bin/zsh -c \"echo '${user_username}:${user_password}' | chpasswd\""
-run_command_with_dialog "Installing Arch Linux" "Adding user to sudoers..." "arch-chroot /mnt /bin/zsh -c \"echo '${user_username} ALL=(ALL:ALL) ALL' | tee -a /etc/sudoers\""
-run_command_with_dialog "Installing Arch Linux" "Enabling NetworkManager..." "arch-chroot /mnt /bin/zsh -c \"systemctl enable NetworkManager\""
-run_command_with_dialog "Installing Arch Linux" "Setting timezone..." "arch-chroot /mnt /bin/zsh -c \"timedatectl set-timezone Europe/Moscow\""
-run_command_with_dialog "Installing Arch Linux" "Enabling NTP..." "arch-chroot /mnt /bin/zsh -c \"timedatectl set-ntp true\""
-run_command_with_dialog "Installing Arch Linux" "Installing GRUB bootloader..." "arch-chroot /mnt /bin/zsh -c \"grub-install /dev/${selected_disk_name}\""
-run_command_with_dialog "Installing Arch Linux" "Copying GRUB themes..." "cp -pr ./boot/grub/themes/grub /mnt/boot/grub/themes/grub"
-run_command_with_dialog "Installing Arch Linux" "Copying GRUB configuration..." "cp -pr ./etc/default/grub /mnt/etc/default/grub"
-run_command_with_dialog "Installing Arch Linux" "Generating GRUB configuration..." "arch-chroot /mnt /bin/zsh -c \"grub-mkconfig -o /boot/grub/grub.cfg\""
-run_command_with_dialog "Installing Arch Linux" "Setting root password..." "arch-chroot /mnt /bin/zsh -c \"echo 'root:${root_password}' | chpasswd\""
-run_command_with_dialog "Installing Arch Linux" "Setting permissions for user's home directory..." "chmod -R 700 /mnt/home/${user_username} && chmod g-w,o-w -R /mnt/home/${user_username}/.oh-my-zsh"
-run_command_with_dialog "Installing Arch Linux" "Unmounting filesystems..." "umount -R /mnt"
+wipefs --all /dev/${selected_disk_name} &> /dev/null
+parted /dev/${selected_disk_name} mklabel gpt &> /dev/null
+parted /dev/${selected_disk_name} mkpart primary fat32 1MiB 1024MiB &> /dev/null
+parted /dev/${selected_disk_name} set 1 esp on &> /dev/null
+parted /dev/${selected_disk_name} mkpart primary ext4 1024MiB 100% &> /dev/null
+yes | mkfs.vfat /dev/${selected_disk_name}${selected_disk_parted_separator}1 &> /dev/null
+yes | mkfs.ext4 /dev/${selected_disk_name}${selected_disk_parted_separator}2 &> /dev/null
+mount /dev/${selected_disk_name}${selected_disk_parted_separator}2 /mnt &> /dev/null
+mkdir -p /mnt/boot/efi
+mount /dev/${selected_disk_name}${selected_disk_parted_separator}1 /mnt/boot/efi &> /dev/null
+pacstrap /mnt base base-devel linux linux-firmware linux-headers curl grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd &> /dev/null
+genfstab /mnt >> /mnt/etc/fstab &> /dev/null
+echo "$user_username" > /mnt/etc/hostname &> /dev/null
+cp -pr ./etc/pacman.conf /mnt/etc/pacman.conf &> /dev/null
+cp -pr ./etc/locale.gen /mnt/etc/locale.gen &> /dev/null
+git clone https://github.com/ohmyzsh/ohmyzsh.git /mnt/etc/skel/.oh-my-zsh &> /dev/null
+git clone https://github.com/alexanderjeurissen/ranger_devicons.git /mnt/etc/skel/.config/ranger/plugins/ranger_devicons &> /dev/null
+git clone https://github.com/zsh-users/zsh-autosuggestions.git /mnt/etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions &> /dev/null
+cp -pr ./etc/skel /mnt/etc/skel &> /dev/null
+arch-chroot /mnt /bin/zsh -c "useradd -m -s /bin/zsh ${user_username}" &> /dev/null
+rm -fr /mnt/home/${user_username} &> /dev/null
+cp -pr ./etc/skel /mnt/home/${user_username} &> /dev/null
+arch-chroot /mnt /bin/zsh -c "echo '${user_username}:${user_password}' | chpasswd" &> /dev/null
+arch-chroot /mnt /bin/zsh -c "echo '${user_username} ALL=(ALL:ALL) ALL' | tee -a /etc/sudoers" &> /dev/null
+arch-chroot /mnt /bin/zsh -c "systemctl enable NetworkManager" &> /dev/null
+arch-chroot /mnt /bin/zsh -c "timedatectl set-timezone Europe/Moscow" &> /dev/null
+arch-chroot /mnt /bin/zsh -c "timedatectl set-ntp true" &> /dev/null
+arch-chroot /mnt /bin/zsh -c "grub-install /dev/${selected_disk_name}" &> /dev/null
+cp -pr ./boot/grub/themes/grub /mnt/boot/grub/themes/grub &> /dev/null
+cp -pr ./etc/default/grub /mnt/etc/default/grub &> /dev/null
+arch-chroot /mnt /bin/zsh -c "grub-mkconfig -o /boot/grub/grub.cfg" &> /dev/null
+arch-chroot /mnt /bin/zsh -c "echo 'root:${root_password}' | chpasswd" &> /dev/null
+chmod -R 700 /mnt/home/${user_username} &> /dev/null
+chmod g-w,o-w -R /mnt/home/${user_username}/.oh-my-zsh &> /dev/null
+umount -R /mnt &> /dev/null
 
 dialog --title "Installing Arch Linux" --msgbox "The installation is complete, now you can restart your computer" 7 40
