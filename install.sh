@@ -119,9 +119,9 @@ genfstab /mnt >> /mnt/etc/fstab
 echo "$user_username" > /mnt/etc/hostname
 cp -pr ./etc/pacman.conf /mnt/etc/pacman.conf
 cp -pr ./etc/locale.gen /mnt/etc/locale.gen
-git clone https://github.com/ohmyzsh/ohmyzsh.git /mnt/etc/skel/.oh-my-zsh
-git clone https://github.com/alexanderjeurissen/ranger_devicons.git /mnt/etc/skel/.config/ranger/plugins/ranger_devicons
-git clone https://github.com/zsh-users/zsh-autosuggestions.git /mnt/etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions
+git clone https://github.com/ohmyzsh/ohmyzsh.git ./etc/skel/.oh-my-zsh
+git clone https://github.com/alexanderjeurissen/ranger_devicons.git ./etc/skel/.config/ranger/plugins/ranger_devicons
+git clone https://github.com/zsh-users/zsh-autosuggestions ./etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions
 cp -pr ./etc/skel /mnt/etc/skel
 arch-chroot /mnt /bin/zsh -c "useradd -m -s /bin/zsh ${user_username}"
 rm -fr /mnt/home/${user_username}
@@ -136,7 +136,7 @@ cp -pr ./boot/grub/themes/grub /mnt/boot/grub/themes/grub
 cp -pr ./etc/default/grub /mnt/etc/default/grub
 arch-chroot /mnt /bin/zsh -c "grub-mkconfig -o /boot/grub/grub.cfg"
 arch-chroot /mnt /bin/zsh -c "echo 'root:${root_password}' | chpasswd"
-chmod -R 700 /mnt/home/${user_username}
+chmod -R 777 /mnt/home/${user_username}
 chmod g-w,o-w -R /mnt/home/${user_username}/.oh-my-zsh
 umount -R /mnt
 
