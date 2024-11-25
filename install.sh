@@ -114,7 +114,7 @@ yes | mkfs.ext4 /dev/${selected_disk_name}${selected_disk_parted_separator}2
 mount /dev/${selected_disk_name}${selected_disk_parted_separator}2 /mnt
 mkdir -p /mnt/boot/efi
 mount /dev/${selected_disk_name}${selected_disk_parted_separator}1 /mnt/boot/efi
-pacstrap /mnt base base-devel linux linux-firmware linux-headers curl grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd
+pacstrap /mnt base base-devel linux linux-firmware linux-headers curl openssh grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd
 genfstab /mnt >> /mnt/etc/fstab
 echo "$user_username" > /mnt/etc/hostname
 cp -pr ./etc/pacman.conf /mnt/etc/pacman.conf
