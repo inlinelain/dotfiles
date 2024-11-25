@@ -13,6 +13,12 @@ client.unfocused #00000040 #00000040 #00000040 #00000040
 client.urgent #00000040 #00000040 #00000040 #00000040
 client.placeholder #00000040 #00000040 #00000040 #00000040
 
+seat seat0 xcursor_theme "Ellen-Joe"
+
+exec_always {
+    gsettings set org.gnome.desktop.interface cursor-theme "Ellen-Joe"
+}
+
 bar {
     swaybar_command waybar
 }
