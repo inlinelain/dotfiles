@@ -105,7 +105,7 @@ pacstrap /mnt base base-devel linux linux-firmware linux-headers curl cowsay ope
 git clone https://github.com/ohmyzsh/ohmyzsh.git ./etc/skel/.oh-my-zsh
 git clone https://github.com/alexanderjeurissen/ranger_devicons.git ./etc/skel/.config/ranger/plugins/ranger_devicons
 git clone https://github.com/zsh-users/zsh-autosuggestions ./etc/skel/.oh-my-zsh/plugins/zsh-autosuggestions
-cp --recursive --preserve ./etc/skel/* /mnt/etc/skel/
+cp --recursive --preserve ./etc/skel/.* /mnt/etc/skel/
 
 arch-chroot /mnt /bin/zsh -c "useradd -m -s /bin/zsh ${config_user_name}"
 arch-chroot /mnt /bin/zsh -c "echo '${config_user_name}:${config_user_password}' | chpasswd"
