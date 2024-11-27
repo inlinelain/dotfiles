@@ -3,5 +3,6 @@
 ## Installation
 ```bash
 git clone https://github.com/inlinelain/dotfiles.git
-bash ./dotfiles/install.sh
+cd dotfiles/
+bash install.sh
 ```
