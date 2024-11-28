@@ -38,8 +38,12 @@ mode "default" {
     bindsym --to-code mod4+b exec firefox --profile $HOME/.mozilla/firefox/profile.inlinelain -no-remote
     bindsym print exec grim $HOME/.screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png && wl-copy < ~/screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png
 
-    bindsym --to-code mod4+r mode "edit"; exec swaymsg "client.focused #991B1B #991B1B #991B1B #991B1B"
+    bindsym --to-code mod4+e mode "edit"; exec swaymsg "client.focused #991B1B #991B1B #991B1B #991B1B"
     bindsym --to-code mod4+shift+q kill
+
+    bindsym --to-code mod4+shift+p exec systemctl poweroff
+    bindsym --to-code mod4+shift+r exec systemctl reboot
+    bindsym --to-code mod4+shift+e exec swaymsg exit
 
     bindsym mod4+up focus up
     bindsym mod4+shift+up move up
@@ -59,6 +63,7 @@ mode "default" {
     bindsym mod4+4 workspace number 4
     bindsym mod4+shift+4 move container to workspace number 4
     bindsym mod4+5 workspace number 5
+
     bindsym mod4+shift+5 move container to workspace number 5
     bindsym mod4+6 workspace number 6
     bindsym mod4+shift+6 move container to workspace number 6
