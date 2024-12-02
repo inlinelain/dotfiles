@@ -100,7 +100,7 @@ mount /dev/${config_disk_name}${config_disk_separator}2 /mnt
 mkdir --parents /mnt/boot/efi
 mount /dev/${config_disk_name}${config_disk_separator}1 /mnt/boot/efi
 
-pacstrap /mnt base base-devel linux linux-firmware linux-headers curl cowsay openssh grub efibootmgr networkmanager wayland zsh git neovim python-pillow swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd
+pacstrap /mnt base base-devel linux linux-firmware linux-headers curl cowsay openssh grub efibootmgr networkmanager wayland zsh git neovim swaybg nodejs firefox htop pulseaudio alsa-lib alsa-utils pulsemixer sway wlroots seatd waybar grim wl-clipboard ranger kitty imagemagick unzip ripgrep lazygit neofetch ttc-iosevka ttf-iosevka-nerd
 
 git clone https://github.com/ohmyzsh/ohmyzsh.git ./etc/skel/.oh-my-zsh
 git clone https://github.com/alexanderjeurissen/ranger_devicons.git ./etc/skel/.config/ranger/plugins/ranger_devicons
