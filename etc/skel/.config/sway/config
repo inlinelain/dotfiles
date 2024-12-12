@@ -37,6 +37,7 @@ mode "default" {
     bindsym mod4+return exec kitty
     bindsym --to-code mod4+b exec firefox --profile $HOME/.mozilla/firefox/profile.inlinelain -no-remote
     bindsym print exec grim $HOME/.screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png && wl-copy < ~/screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png
+    bindsym mod4+a exec scrcpy
 
     bindsym --to-code mod4+e mode "edit"; exec swaymsg "client.focused #991B1B #991B1B #991B1B #991B1B"
     bindsym --to-code mod4+shift+q kill
