@@ -1,0 +1,11 @@
+#TabsToolbar,
+#nav-bar,
+#PersonalToolbar,
+#file-menu,
+#edit-menu,
+#view-menu,
+#bookmarksMenu,
+#helpMenu,
+#contentAreaContextMenu, {
+    visibility: collapse;
+}
