@@ -1,11 +1,133 @@
-#TabsToolbar,
-#nav-bar,
+#toolbar-menubar,
 #PersonalToolbar,
-#file-menu,
-#edit-menu,
-#view-menu,
-#bookmarksMenu,
-#helpMenu,
-#contentAreaContextMenu, {
-    visibility: collapse;
+#contentAreaContextMenu,
+#PanelUI-button, 
+#back-button,
+#forward-button,
+#stop-reload-button,
+#identity-permission-box,
+#star-button-box,
+#identity-icon-box,
+#picture-in-picture-button,
+#tracking-protection-icon-container,
+#reader-mode-button,
+#translations-button,
+#urlbar .search-one-offs,
+#alltabs-button,
+#save-to-pocket-button,
+#fxa-toolbar-menu-button,
+#firefox-view-button,
+#alltabs-button,
+.titlebar-buttonbox-container {
+    display: none !important;
+}
+
+#urlbar-background {
+    border: none !important;
+    outline: none !important;
+    transition: .15s !important;
+}
+
+#urlbar:not(:hover):not([breakout][breakout-extend]) > #urlbar-background {
+    box-shadow: none !important;
+    background: #0000 !important;
+}
+
+#navigator-toolbox {
+    border: none !important
+}
+
+#navigator-toolbox-background:-moz-window-inactive {
+    filter: contrast(90%)
+}
+
+:root {
+    --tab-border-radius: 6px !important;
+    --NavbarWidth: 43;
+    --TabsHeight: 36;
+    --TabsBorder: 8;
+    --NavbarHeightSmall: calc(var(--TabsHeight) + var(--TabsBorder));
+}
+
+@media screen and (min-width: 1325px) {
+    :root #nav-bar {
+        margin-top: calc(var(--TabsHeight) * -1px - var(--TabsBorder) * 1px) !important;
+        height: calc(var(--TabsHeight) * 1px + var(--TabsBorder) * 1px);
+    }
+
+    #TabsToolbar {
+        margin-left: calc(1325px / 100 * var(--NavbarWidth)) !important;
+    }
+
+    #nav-bar {
+        margin-right: calc(100vw - calc(1325px / 100 * var(--NavbarWidth))) !important;
+        vertical-align: center !important;
+    }
+
+    #urlbar-container {
+        min-width: 0px !important;
+        flex: auto !important;
+    }
+
+    toolbarspring {
+        display: none !important;
+    }
+}
+
+@media screen and (min-width: 950px) and (max-width: 1324px) {
+    :root #nav-bar {
+        margin-top: calc(var(--TabsHeight) * -1px - var(--TabsBorder) * 1px) !important;
+        height: calc(var(--TabsHeight) * 1px + var(--TabsBorder) * 1px);
+    }
+
+    #TabsToolbar {
+        margin-left: calc(var(--NavbarWidth) * 1vw) !important;
+    }
+
+    #nav-bar {
+        margin-right: calc(100vw - calc(var(--NavbarWidth) * 1vw)) !important;
+        vertical-align: center !important;
+    }
+
+    #urlbar-container {
+        min-width: 0px !important;
+        flex: auto !important;
+    }
+
+    toolbarspring {
+        display: none !important;
+    }
+
+    #TabsToolbar, #nav-bar {
+        transition: margin-top .25s !important;
+    }
+}
+
+@media screen and (max-width: 949px) {
+    :root #nav-bar {
+        padding: 0 5px 0 5px !important;
+        height: calc(var(--NavbarHeightSmall) * 1px) !important;
+    }
+
+    toolbarspring {
+        display: none !important;
+    }
+
+    #TabsToolbar, #nav-bar {
+        transition: margin-top .25s !important;
+    }
+}
+
+#nav-bar {
+    background-color: #0000 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+#nav-bar {
+    margin-left: 3px;
+}
+
+.tab-background, .tab-stack {
+    min-height: calc(var(--TabsHeight) * 1px) !important;
 }
