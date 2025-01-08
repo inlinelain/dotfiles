@@ -42,6 +42,7 @@ mode "default" {
 
     bindsym --to-code mod4+shift+w layout toggle tabbed split
     bindsym --to-code mod4+shift+space floating toggle
+    bindsym --to-code mod4+shift+f fullscreen
 
     bindsym --to-code mod4+shift+r mode "resize"
     bindsym --to-code mod4+shift+q kill
