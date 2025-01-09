@@ -41,10 +41,10 @@ mode "default" {
     bindsym print exec grim $HOME/.screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png && wl-copy < ~/screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png
 
     bindsym --to-code mod4+shift+w layout toggle tabbed split
-    bindsym --to-code mod4+shift+space floating toggle
-    bindsym --to-code mod4+shift+f fullscreen
+    bindsym --to-code mod4+shift+space floating toggle;
+    bindsym --to-code mod4+shift+r mode "editing"
 
-    bindsym --to-code mod4+shift+r mode "resize"
+    bindsym --to-code mod4+f fullscreen
     bindsym --to-code mod4+shift+q kill
     bindsym --to-code mod4+shift+c reload
 
@@ -66,7 +66,6 @@ mode "default" {
     bindsym mod4+4 workspace number 4
     bindsym mod4+shift+4 move container to workspace number 4
     bindsym mod4+5 workspace number 5
-
     bindsym mod4+shift+5 move container to workspace number 5
     bindsym mod4+6 workspace number 6
     bindsym mod4+shift+6 move container to workspace number 6
@@ -78,15 +77,15 @@ mode "default" {
     bindsym mod4+shift+9 move container to workspace number 9
 }
 
-mode "resize" {
-    bindsym escape mode "default";
+mode "editing" {
+    bindsym escape mode "default"
 
-    bindsym up resize grow height 10 px
-    bindsym shift+up resize grow height 50 px
-    bindsym down resize shrink height 10 px
-    bindsym shift+down resize shrink height 50 px
-    bindsym left resize shrink width 10 px
-    bindsym shift+left resize shrink width 50 px
-    bindsym right resize grow width 10 px
-    bindsym shift+right resize grow width 50 px
+    bindsym --to-code mod4+up move up 50 px
+    bindsym --to-code mod4+shift+up resize grow height 50 px
+    bindsym --to-code mod4+down move down 50 px
+    bindsym --to-code mod4+shift+down resize shrink height 50 px
+    bindsym --to-code mod4+left move left 50 px
+    bindsym --to-code mod4+shift+left resize shrink width 50 px
+    bindsym --to-code mod4+right move right 50 px
+    bindsym --to-code mod4+shift+right resize grow width 50 px
 }
